@@ -18,12 +18,18 @@ cd /tmp
 wget --no-verbose "$PROJ_DOWNLOAD_URL"
 wget --no-verbose "$PROJ_DOWNLOAD_URL.md5"
 md5sum --strict -c proj-$PROJ_VERSION.tar.gz.md5
-wget --no-verbose "$PROJ_DATUM_DOWNLOAD_URL"
 tar xzf proj-$PROJ_VERSION.tar.gz
 rm -f proj-$PROJ_VERSION.tar.gz*
 mkdir -p proj-$PROJ_VERSION/nad
-tar xzf proj-datumgrid-$PROJ_DATUM_VERSION.tar.gz -C proj-$PROJ_VERSION/nad
-rm -f proj-datumgrid-$PROJ_DATUM_VERSION.tar.gz
+wget --no-verbose "$PROJ_DATUM_DOWNLOAD_URL"
+tar xzf proj-datumgrid-1.8.tar.gz -C proj-$PROJ_VERSION/nad
+rm -f proj-datumgrid-1.8.tar.gz
+wget --no-verbose "$PROJ_EUROPE_DATUM_DOWNLOAD_URL"
+tar xzf proj-datumgrid-europe-1.1.tar.gz -C proj-$PROJ_VERSION/nad
+rm -f proj-datumgrid-europe-1.1.tar.gz
+wget --no-verbose "$PROJ_NORTHAMERICA_DATUM_DOWNLOAD_URL"
+tar xzf proj-datumgrid-north-america-1.1.tar.gz -C proj-$PROJ_VERSION/nad
+rm -f proj-datumgrid-north-america-1.1.tar.gz
 { \
     cd proj-$PROJ_VERSION ; \
     ./configure --prefix=/usr && \
@@ -36,7 +42,7 @@ rm -f proj-datumgrid-$PROJ_DATUM_VERSION.tar.gz
 # install libproj at the same place as libproj12 does :
 mv /usr/lib/libproj.a /usr/lib/x86_64-linux-gnu/
 mv /usr/lib/libproj.la /usr/lib/x86_64-linux-gnu/
-mv /usr/lib/libproj.so.13.1.0 /usr/lib/x86_64-linux-gnu/
+mv /usr/lib/libproj.so.13.1.1 /usr/lib/x86_64-linux-gnu/
 mv /usr/lib/libproj.so /usr/lib/x86_64-linux-gnu/
 mv /usr/lib/libproj.so.13 /usr/lib/x86_64-linux-gnu/
 

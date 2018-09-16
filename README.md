@@ -1,11 +1,12 @@
 % PROJ.4 - Cartographic Projections Library  
 % Didier Richard  
-% 2018/09/02
+% 2018/09/16
 
 ---
 
 revision:
-    - 1.0.0 : 2018/09/02  
+    - 1.0.0 : 2018/09/02 : PROJ 5.1.0  
+    - 1.1.0 : 2018/09/16 : PROJ 5.2.0, added european and north american datum files  
 
 ---
 
@@ -30,8 +31,10 @@ $ docker tag dgricci/proj:$(< VERSION) dgricci/proj:latest
 
 ```bash
 $ docker build \
-    --build-arg PROJ_VERSION=5.1.0 --build-arg PROJ_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-5.0.1.zip \
-    --build-arg PROJ_DATUM_VERSION=1.7 --build-arg PROJ_DATUM_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-datumgrid-1.7.zip \
+    --build-arg PROJ_VERSION=5.2.0 --build-arg PROJ_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-5.2.0.tar.gz \
+    --build-arg PROJ_DATUM_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-datumgrid-1.8.tar.gz \
+    --build-arg PROJ_EUROPE_DATUM_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-datumgrid-europe-1.1.tar.gz \
+    --build-arg PROJ_NORTHAMERICA_DATUM_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-datumgrid-north-america-1.1.tar.gz \
     -t dgricci/proj:$(< VERSION) .
 $ docker tag dgricci/proj:$(< VERSION) dgricci/proj:latest
 ```
@@ -41,15 +44,15 @@ $ docker tag dgricci/proj:$(< VERSION) dgricci/proj:latest
 See `dgricci/stretch` README for handling permissions with dockers volumes.
 
 ```bash
-$ docker run --rm dgricci/proj proj
-Rel. 5.1.0, June 1st, 2018
-usage: proj [ -beEfiIlmorsStTvVwW [args] ] [ +opts[=arg] ] [ files ]
+$ docker run --rm dgricci/proj:$(< VERSION) proj
+Rel. 5.2.0, September 15th, 2018
+usage: proj [ -bdeEfiIlmorsStTvVwW [args] ] [ +opts[=arg] ] [ files ]
 ```
 
 Using default command :
 
 ```bash
-$ docker run --rm dgricci/proj
+$ docker run --rm dgricci/proj:$(< VERSION)
 aea : Albers Equal Area
 aeqd : Azimuthal Equidistant
 airy : Airy
@@ -80,6 +83,7 @@ eck3 : Eckert III
 eck4 : Eckert IV
 eck5 : Eckert V
 eck6 : Eckert VI
+eqearth : Equal Earth
 eqc : Equidistant Cylindrical (Plate Caree)
 eqdc : Equidistant Conic
 euler : Euler
@@ -215,6 +219,8 @@ $ ./proj.bats
  ✓ Test NAD27 to raw ellipse
  ✓ Between two 3parameter approximations on same ellipsoid
  ✓ NTFG to RGF93G
+
+4 tests, 0 failures
 ```
 
 or, better, using the TAP formatting :
