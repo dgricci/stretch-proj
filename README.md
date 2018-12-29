@@ -35,6 +35,7 @@ $ docker build \
     --build-arg PROJ_DATUM_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-datumgrid-1.8.tar.gz \
     --build-arg PROJ_EUROPE_DATUM_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-datumgrid-europe-1.1.tar.gz \
     --build-arg PROJ_NORTHAMERICA_DATUM_DOWNLOAD_URL=http://download.osgeo.org/proj/proj-datumgrid-north-america-1.1.tar.gz \
+    --build-arg PROJ_HOME=/opt/proj-5.2.0 \
     -t dgricci/proj:$(< VERSION) .
 $ docker tag dgricci/proj:$(< VERSION) dgricci/proj:latest
 ```

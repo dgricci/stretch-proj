@@ -32,19 +32,33 @@ tar xzf proj-datumgrid-north-america-1.1.tar.gz -C proj-$PROJ_VERSION/nad
 rm -f proj-datumgrid-north-america-1.1.tar.gz
 { \
     cd proj-$PROJ_VERSION ; \
-    ./configure --prefix=/usr && \
-    make -j$NPROC  > ../../make.log 2>&1 && \
+    ./configure --prefix=${PROJ_HOME} && \
+    make -j$NPROC && \
     make install ; \
-    ldconfig ; \
     cd .. ; \
     rm -fr proj-$PROJ_VERSION ; \
 }
 # install libproj at the same place as libproj12 does :
-mv /usr/lib/libproj.a /usr/lib/x86_64-linux-gnu/
-mv /usr/lib/libproj.la /usr/lib/x86_64-linux-gnu/
-mv /usr/lib/libproj.so.13.1.1 /usr/lib/x86_64-linux-gnu/
-mv /usr/lib/libproj.so /usr/lib/x86_64-linux-gnu/
-mv /usr/lib/libproj.so.13 /usr/lib/x86_64-linux-gnu/
+case "${PROJ_HOME}" in
+"/usr")
+    mv ${PROJ_HOME}/lib/libproj.a /usr/lib/x86_64-linux-gnu/
+    mv ${PROJ_HOME}/lib/libproj.la /usr/lib/x86_64-linux-gnu/
+    mv ${PROJ_HOME}/lib/libproj.so.13.1.1 /usr/lib/x86_64-linux-gnu/
+    mv ${PROJ_HOME}/lib/libproj.so /usr/lib/x86_64-linux-gnu/
+    mv ${PROJ_HOME}/lib/libproj.so.13 /usr/lib/x86_64-linux-gnu/
+    ;;
+*)
+    cp ${PROJ_HOME}/bin/ * /usr/bin/
+    cp ${PROJ_HOME}/lib/libproj.a /usr/lib/x86_64-linux-gnu/
+    cp ${PROJ_HOME}/lib/libproj.la /usr/lib/x86_64-linux-gnu/
+    cp ${PROJ_HOME}/lib/libproj.so.13.1.1 /usr/lib/x86_64-linux-gnu/
+    cp ${PROJ_HOME}/lib/libproj.so /usr/lib/x86_64-linux-gnu/
+    cp ${PROJ_HOME}/lib/libproj.so.13 /usr/lib/x86_64-linux-gnu/
+    cp ${PROJ_HOME}/include/* /usr/include/
+    cp -a ${PROJ_HOME}/share/proj /usr/share/
+    ;;
+esac
+ldconfig
 
 # uninstall and clean
 01-uninstall.sh y
