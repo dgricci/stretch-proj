@@ -17,6 +17,21 @@ $ docker build -t dgricci/proj:$(< VERSION) .
 $ docker tag dgricci/proj:$(< VERSION) dgricci/proj:latest
 ```
 
+By default, it builds proj in /opt/proj-5.2.0 (default value of PROJ_HOME) and
+copy binaries, headers, librairies and data in the relevant places in `/usr`.
+
+One can use the following command to install proj directly in `/usr` :
+
+```bash
+$ docker build --build-arg PROJ_HOME=/usr -t dgricci/proj:$(< VERSION) .
+```
+
+To get a full output during building, use :
+
+```bash
+$ docker build --build-arg PROJ_HOME=/usr -t dgricci/proj:$(< VERSION) . 2>&1 | tee build-proj.log
+```
+
 ## Behind a proxy (e.g. 10.0.4.2:3128) ##
 
 ```bash
