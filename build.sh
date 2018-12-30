@@ -58,6 +58,7 @@ case "${PROJ_HOME}" in
     cp -a ${PROJ_HOME}/share/proj /usr/share/
     ;;
 esac
+sed -i -e "s:^\(libdir=\).*:\1'/usr/lib/x86_64-linux-gnu':" /usr/lib/x86_64-linux-gnu/libproj.la
 ldconfig
 
 # uninstall and clean
